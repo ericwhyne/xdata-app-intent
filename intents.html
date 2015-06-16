@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<script type="text/javascript" src="intents_config.js"></script>
+<script>
+
+function parseIntent() {
+    //Grab all of the applications associated with the requested type
+    applications = intents_config[getQueryVariable('type')]['applications']
+
+    input_strings = intents_config[getQueryVariable('type')]['input'];
+    input_keys = Object.keys(intents_config[getQueryVariable('type')]['input']);
+
+    //Generate some instructions requesting a user choose an application
+    instructions = 'Choose the application you want to use to open: ';
+    for (var i = 0; i < input_keys.length; i++) {
+      instructions += getQueryVariable(input_keys[i]) + ' ';
+    }
+
+    output = instructions + "<br><br>";
+
+    // Then iterate each application and generate an intent menu
+    for(application in applications){
+      raw_call_url = applications[application]['call_url'];
+      new_call_url = '';
+      // Each type might have multiple inputs, here we loop through and fix the raw_call_url
+      for (var i = 0; i < input_keys.length; i++) {
+        new_call_url = raw_call_url.replace(input_strings[input_keys[i]],getQueryVariable(input_keys[i]));
+      }
+      logo = applications[application]['icon'];
+
+      // We have the new call urls and logos of the application, now generate a menu item
+      menuItem = '';
+      menuItem += "<a href=\"" + new_call_url + "\">" + new_call_url + "</a>  ";
+      menuItem += "<img src=\"" + logo + "\" height=50><br>";
+
+      output += menuItem;
+    }
+    // Write the consolidated output to somewhere on the screen
+    document.getElementById("output").innerHTML = output
+}
+
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split('&');
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) == variable) {
+            return decodeURIComponent(pair[1]);
+        }
+    }
+    console.log('Query variable %s not found', variable);
+}
+
+</script>
+<body onload="parseIntent()">
+<div id='output'></div>
+</body>
+</html>
