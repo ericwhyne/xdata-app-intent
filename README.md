@@ -1,7 +1,7 @@
 # xdata-app-intent
 Facilitates pushing of data and context between web applications.
 
-# Configuraiton
+# Configuration
 Edit the configuration in intents_config.js. The example config will work with the use examples below.
 
 
