@@ -11,3 +11,6 @@ Open intents.html in a browser and try these examples.
 intents.html?type=geo_text_location_apps&location=Berkeley
 
 intents.html?type=social_media_username_apps&social_media_username=ericwhyne
+
+## Screenshot of an example
+![screenshot](https://raw.githubusercontent.com/ericwhyne/xdata-app-intent/master/screenshot1.png)
